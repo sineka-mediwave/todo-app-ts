@@ -7,6 +7,7 @@ interface ITodoList {
   handleDelete: (n: Number) => void;
   handleEdit: (n: Number) => void;
   handleUpdate: (n: Number, t: string) => void;
+  handleStrike: (n: Number, t: string) => void;
 }
 
 const TodoList: React.FC<ITodoList> = ({
@@ -14,6 +15,7 @@ const TodoList: React.FC<ITodoList> = ({
   handleDelete,
   handleEdit,
   handleUpdate,
+  handleStrike,
 }) => {
   function handleSave(id: Number, value: string) {
     if (value) {
@@ -23,9 +25,9 @@ const TodoList: React.FC<ITodoList> = ({
 
   function handleCheck(e: React.ChangeEvent<HTMLInputElement>, id: Number) {
     if (e.target.checked) {
-      console.log("done", id);
+      handleStrike(id, "done");
     } else {
-      console.log("undone", id);
+      handleStrike(id, "undone");
     }
   }
 

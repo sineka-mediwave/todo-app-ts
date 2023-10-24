@@ -42,12 +42,14 @@ function App() {
     setTodos(newTodos);
   }
 
-  function handleStrike(id: Number) {
+  function handleStrike(id: Number, type: string) {
     const newTodos = [...todos];
     const idx = newTodos.findIndex((nt) => nt.id === id);
     if (idx !== -1) {
-      newTodos[idx]["isDone"] = true;
+      if (type === "done") newTodos[idx]["isDone"] = true;
+      else newTodos[idx]["isDone"] = false;
     }
+    setTodos(newTodos);
   }
   return (
     <div className="container m-4">
@@ -58,7 +60,7 @@ function App() {
         handleDelete={handleDelete}
         handleEdit={handleEdit}
         handleUpdate={handleUpdate}
-        // handleStrike={handleStrike}
+        handleStrike={handleStrike}
       />
     </div>
   );
