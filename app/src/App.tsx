@@ -12,6 +12,8 @@ function App() {
     const obj: ITodo = {
       text: str,
       id: new Date().getTime(),
+      isDone: false,
+      isEdit: false,
     };
     setTodos((prev) => [...prev, obj]);
   }
@@ -21,11 +23,43 @@ function App() {
     setTodos(filtered);
   }
 
+  function handleEdit(id: Number) {
+    const newTodos = [...todos];
+    const idx = newTodos.findIndex((nt) => nt.id === id);
+    if (idx !== -1) {
+      newTodos[idx]["isEdit"] = true;
+    }
+    setTodos(newTodos);
+  }
+
+  function handleUpdate(id: Number, text: string) {
+    const newTodos = [...todos];
+    const idx = newTodos.findIndex((nt) => nt.id === id);
+    if (idx !== -1) {
+      newTodos[idx]["isEdit"] = false;
+      newTodos[idx]["text"] = text;
+    }
+    setTodos(newTodos);
+  }
+
+  function handleStrike(id: Number) {
+    const newTodos = [...todos];
+    const idx = newTodos.findIndex((nt) => nt.id === id);
+    if (idx !== -1) {
+      newTodos[idx]["isDone"] = true;
+    }
+  }
   return (
     <div className="container m-4">
       <h1 className="mb-4">My Todos</h1>
       <AddTodo onTodoAdd={onTodoAdd} />
-      <TodoList todos={todos} handleDelete={handleDelete} />
+      <TodoList
+        todos={todos}
+        handleDelete={handleDelete}
+        handleEdit={handleEdit}
+        handleUpdate={handleUpdate}
+        // handleStrike={handleStrike}
+      />
     </div>
   );
 }
