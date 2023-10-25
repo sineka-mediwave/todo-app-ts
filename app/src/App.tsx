@@ -1,12 +1,24 @@
 import "bootstrap/dist/css/bootstrap.css";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { ITodo } from "./types";
 
 import TodoList from "./components/TodoList";
 import AddTodo from "./components/AddTodo";
 
 function App() {
-  const [todos, setTodos] = useState<ITodo[]>([]);
+  const [todos, setTodos] = useState<ITodo[]>(getFromLocalStorage());
+
+  function getFromLocalStorage(): ITodo[] {
+    const storedValue = localStorage.getItem("My-Todos");
+    if (storedValue) {
+      return JSON.parse(storedValue);
+    } else {
+      return [];
+    }
+  }
+  useEffect(() => {
+    localStorage.setItem("My-Todos", JSON.stringify(todos));
+  }, [todos]);
 
   function onTodoAdd(str: string) {
     const obj: ITodo = {
